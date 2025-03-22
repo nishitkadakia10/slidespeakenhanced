@@ -1,0 +1,1 @@
+# slidespeak-mcp
