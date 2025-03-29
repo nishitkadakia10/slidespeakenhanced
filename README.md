@@ -1,6 +1,27 @@
 # slidespeak-mcp
 
-## Getting started
+## Adding the MCP to Claude
+
+```json
+{
+  "mcpServers": {
+    "slidespeak": {
+      "command": "/path/to/.local/bin/uv",
+      "args": [
+        "--directory",
+        "/path/to/slidespeak-mcp",
+        "run",
+        "slidespeak.py"
+      ],
+      "env": {
+        "SLIDESPEAK_API_KEY": "API-KEY-HERE"
+      }
+    }
+  }
+}
+```
+
+## Development
 
 ### Install uv
 
