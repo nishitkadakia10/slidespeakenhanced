@@ -17,7 +17,7 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
         "--rm",
         "-e",
         "SLIDESPEAK_API_KEY",
-        "slidespeak/slidespeak-mcp:0.0.1"
+        "slidespeak/slidespeak-mcp:0.0.2"
       ],
       "env": {
         "SLIDESPEAK_API_KEY": "YOUR-API-KEY-HERE"
@@ -30,7 +30,7 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
 ## Building the Docker Image
 
 ```bash
-docker build . -t slidespeak/slidespeak-mcp:0.0.1
+docker build . -t slidespeak/slidespeak-mcp:0.0.2
 ```
 
 ## Development
