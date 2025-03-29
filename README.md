@@ -17,7 +17,7 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
         "--rm",
         "-e",
         "SLIDESPEAK_API_KEY",
-        "slidespeak/slidespeak-mcp:0.0.2"
+        "slidespeak/slidespeak-mcp:latest"
       ],
       "env": {
         "SLIDESPEAK_API_KEY": "YOUR-API-KEY-HERE"
@@ -27,10 +27,17 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
 }
 ```
 
+## Getting an API key
+
+Visit this page in order to get an API key for Slidespeak: https://slidespeak.co/slidespeak-api/
+
 ## Building the Docker Image
 
+This is for local testing, if you want to publish a new docker container check out the "Making a new version" section
+below.
+
 ```bash
-docker build . -t slidespeak/slidespeak-mcp:0.0.2
+docker build . -t slidespeak/slidespeak-mcp:TAG-HERE
 ```
 
 ## Development
@@ -75,9 +82,17 @@ Add the following to your claude_desktop_config.json:
 }
 ```
 
-## Versions
+## Making a new release
+
+Version naming should be in the format of `MAJOR.MINOR.PATCH` (e.g., `1.0.0`).
 
 The version needs to be updated in the following files:
 
 - pyproject.toml -> version
 - slidespeak.py -> USER_AGENT
+
+Make a new release in GitHub and tag it with the version number.
+This will trigger a GitHub Action.
+The release will be automatically built and pushed to Docker Hub.
+
+https://hub.docker.com/r/slidespeak/slidespeak-mcp
