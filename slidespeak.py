@@ -13,7 +13,7 @@ mcp = FastMCP("slidespeak")
 
 # API Configuration
 API_BASE = "https://api.slidespeak.co/api/v1"
-USER_AGENT = "slidespeak-mcp/0.0.2"
+USER_AGENT = "slidespeak-mcp/0.0.3"
 API_KEY = os.environ.get('SLIDESPEAK_API_KEY')
 
 if not API_KEY:
