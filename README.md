@@ -1,5 +1,9 @@
 # slidespeak-mcp
 
+## Requirements
+
+- Docker ([Download Docker Desktop for free here](https://docs.docker.com/get-started/introduction/get-docker-desktop/))
+
 ## Usage with Claude Desktop
 
 To use this with Claude Desktop, add the following to your claude_desktop_config.json:
@@ -31,7 +35,11 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
 
 Visit this page in order to get an API key for Slidespeak: https://slidespeak.co/slidespeak-api/
 
-## Building the Docker Image
+## Development of SlideSpeak MCP
+
+The following information is related to development of the SlideSpeak MCP. These steps are not needed to use the MCP.
+
+### Building the Docker Image
 
 This is for local testing, if you want to publish a new docker container check out the "Making a new version" section
 below.
@@ -40,20 +48,20 @@ below.
 docker build . -t slidespeak/slidespeak-mcp:TAG-HERE
 ```
 
-## Development
+### Development
 
-### Install uv
+#### Install uv
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Create virtual environment and activate it
+#### Create virtual environment and activate it
 
 uv venv
 source .venv/bin/activate
 
-### Install dependencies
+#### Install dependencies
 
 ```bash
 uv pip install -r requirements.txt
@@ -82,7 +90,7 @@ Add the following to your claude_desktop_config.json:
 }
 ```
 
-## Making a new release
+### Making a new release
 
 Version naming should be in the format of `MAJOR.MINOR.PATCH` (e.g., `1.0.0`).
 
