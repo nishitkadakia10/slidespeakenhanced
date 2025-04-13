@@ -1,5 +1,7 @@
 # slidespeak-mcp
 
+An MCP Server that allows you to create PowerPoint presentations. Powered by SlideSpeak, you can now create presentations using the SlideSpeak MCP. Automate reports, presentations an other slide decks. Start today!
+
 ## Requirements
 
 - Docker ([Download Docker Desktop for free here](https://docs.docker.com/get-started/introduction/get-docker-desktop/))
