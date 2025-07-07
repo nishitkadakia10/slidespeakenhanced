@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/slidespeak-slidespeak-mcp-badge.png)](https://mseep.ai/app/slidespeak-slidespeak-mcp)
+
 # slidespeak-mcp
 
 An MCP Server that allows you to create PowerPoint presentations. Powered by SlideSpeak, you can now create presentations using the SlideSpeak MCP. Automate reports, presentations an other slide decks. Start today!
