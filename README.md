@@ -8,7 +8,7 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
 
 ### Remote MCP
 
-This is the easiest way to run the MCP. This approach requires you to have Node.JS installed on your system.
+This is the easiest way to run the MCP. This approach requires you to have Node.js installed on your system.
 
 ([Download Node.js for free here](https://nodejs.org/en/download))
 
