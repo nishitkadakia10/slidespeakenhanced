@@ -2,15 +2,15 @@
 
 An MCP Server that allows you to create PowerPoint presentations. Powered by SlideSpeak, you can now create presentations using the SlideSpeak MCP. Automate reports, presentations an other slide decks. Start today!
 
-## Requirements
-
-- Docker ([Download Docker Desktop for free here](https://docs.docker.com/get-started/introduction/get-docker-desktop/))
-
 ## Usage with Claude Desktop
 
 To use this with Claude Desktop, add the following to your claude_desktop_config.json:
 
 ### Remote MCP
+
+This is the easiest way to run the MCP. This approach requires you to have Node.JS installed on your system.
+
+([Download Node.js for free here](https://nodejs.org/en/download))
 
 ```json
 {
@@ -21,7 +21,7 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
         "mcp-remote",
         "https://mcp.slidespeak.co/mcp",
         "--header",
-        "Authorization: Bearer SLIDESPEAK-API-KEY"
+        "Authorization: Bearer YOUR-SLIDESPEAK-API-KEY-HERE"
       ],
       "timeout": 300000
     }
@@ -30,6 +30,10 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
 ```
 
 ### Docker
+
+This will allow you to run the MCP Server on your own computer. This approach requires Docker to be installed on your system.
+
+([Download Docker Desktop for free here](https://docs.docker.com/get-started/introduction/get-docker-desktop/))
 
 ```json
 {
@@ -45,7 +49,7 @@ To use this with Claude Desktop, add the following to your claude_desktop_config
         "slidespeak/slidespeak-mcp:latest"
       ],
       "env": {
-        "SLIDESPEAK_API_KEY": "YOUR-API-KEY-HERE"
+        "SLIDESPEAK_API_KEY": "YOUR-SLIDESPEAK-API-KEY-HERE"
       }
     }
   }
