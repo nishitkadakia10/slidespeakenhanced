@@ -10,6 +10,25 @@ An MCP Server that allows you to create PowerPoint presentations. Powered by Sli
 
 To use this with Claude Desktop, add the following to your claude_desktop_config.json:
 
+### Remote MCP
+
+```json
+{
+  "mcpServers": {
+    "slidespeak": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.slidespeak.co/mcp",
+        "--header",
+        "Authorization: Bearer SLIDESPEAK-API-KEY"
+      ],
+      "timeout": 300000
+    }
+  }
+}
+```
+
 ### Docker
 
 ```json
