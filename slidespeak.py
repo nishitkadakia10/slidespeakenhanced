@@ -4,6 +4,7 @@ import os
 import time
 import asyncio
 import logging
+import json
 from mcp.server.fastmcp import FastMCP
 
 # --- Configuration & Constants ---
@@ -106,7 +107,25 @@ async def get_available_templates() -> str:
     return formatted_templates.strip()
 
 @mcp.tool()
-async def generate_powerpoint(plain_text: str, length: int, template: str) -> str:
+async def get_me() -> str:
+    """
+    Get details about the current API key (user_name and remaining credits).
+    """
+    if not API_KEY:
+        return "API Key is missing. Cannot process any requests."
+
+    result = await _make_api_request("GET", "/me")
+    if not result:
+        return "Failed to fetch current user details."
+    return json.dumps(result) + "\n Note: Generating slides costs 1 credit / slide"
+
+@mcp.tool()
+async def generate_powerpoint(
+    plain_text: str,
+    length: int,
+    template: str,
+    document_uuids: Optional[list[str]] = None,
+) -> str:
     """
     Generate a PowerPoint presentation based on text, length, and template.
     Waits up to a configured time for the result.
@@ -118,11 +137,13 @@ async def generate_powerpoint(plain_text: str, length: int, template: str) -> st
         return "API Key is missing. Cannot process any requests."
 
     # Prepare the JSON body for the generation request
-    payload = {
+    payload: dict[str, Any] = {
         "plain_text": plain_text,
         "length": length,
         "template": template
     }
+    if document_uuids:
+        payload["document_uuids"] = document_uuids
 
     # Step 1: Initiate generation (POST request)
     init_result = await _make_api_request("POST", generation_endpoint, payload=payload, timeout=GENERATION_TIMEOUT)
@@ -302,6 +323,52 @@ async def generate_slide_by_slide(
         return (
             f"Timeout while waiting for slide-by-slide generation (Task ID: {task_id}). The task might still be running."
         )
+
+@mcp.tool()
+async def get_task_status(task_id: str) -> str:
+    """
+    Get the current task status and result by task_id.
+    """
+    if not API_KEY:
+        return "API Key is missing. Cannot process any requests."
+    status = await _make_api_request("GET", f"/task_status/{task_id}", timeout=POLLING_TIMEOUT)
+    if not status:
+        return f"Failed to fetch status for task {task_id}."
+    return json.dumps(status)
+
+@mcp.tool()
+async def upload_document(file_path: str) -> str:
+    """
+    Upload a document file and return the task_id for processing.
+    Supported file types: .pptx, .ppt, .docx, .doc, .xlsx, .pdf
+    """
+    if not API_KEY:
+        return "API Key is missing. Cannot process any requests."
+
+    url = f"{API_BASE}/document/upload"
+    headers = {
+        "User-Agent": USER_AGENT,
+        "X-API-Key": API_KEY,
+    }
+
+    # Validate path
+    if not os.path.isfile(file_path):
+        return f"File not found: {file_path}"
+
+    try:
+        async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
+            with open(file_path, "rb") as f:
+                files = {"file": (os.path.basename(file_path), f)}
+                response = await client.post(url, headers=headers, files=files)
+                response.raise_for_status()
+                data = response.json()
+                return json.dumps(data)
+    except httpx.HTTPStatusError as e:
+        logging.error(f"HTTP error uploading document: {e.response.status_code} - {e.response.text}")
+        return f"Upload failed: {e.response.status_code} {e.response.text}"
+    except Exception as e:
+        logging.error(f"Unexpected error uploading document: {str(e)}")
+        return f"Upload failed: {str(e)}"
 
 
 if __name__ == "__main__":
