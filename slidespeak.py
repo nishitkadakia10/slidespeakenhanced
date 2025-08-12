@@ -5,7 +5,7 @@ import time
 import asyncio
 import logging
 import warnings
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from pydantic import Field
 
 # Suppress deprecation warnings from websockets and uvicorn
@@ -548,17 +548,21 @@ if __name__ == "__main__":
        logging.critical("SLIDESPEAK_API_KEY is not set. The server cannot communicate with the backend API.")
        logging.info("Get your API key at: https://slidespeak.co/slidespeak-api/")
 
+    # Get port from environment
+    port = int(os.environ.get("PORT", 8080))
+    
     # Log startup information
     logger.info(f"Starting SlideSpeak MCP Server v0.0.3")
     logger.info(f"Transport: streamable-http")
-    logger.info(f"Port: {PORT}")
+    logger.info(f"Port: {port}")
+    logger.info(f"Base URL: {BASE_URL}")
     if PUBLIC_DOMAIN:
         logger.info(f"Public URL: {BASE_URL}/mcp")
     
-    # Initialize and run the server with streamable-http transport
-    # The MCP library reads PORT from environment automatically for streamable-http
-    port = int(os.environ.get("PORT", 8080))
-    logger.info(f"Starting server on port {port}")
-    
-    # For streamable-http, the library typically handles host/port from env vars
-    mcp.run(transport="streamable-http")
+    # Run FastMCP server with streamable-http transport
+    # FastMCP handles the HTTP server setup internally
+    mcp.run(
+        transport="streamable-http",
+        host="0.0.0.0",
+        port=port
+    )
