@@ -556,9 +556,9 @@ if __name__ == "__main__":
         logger.info(f"Public URL: {BASE_URL}/mcp")
     
     # Initialize and run the server with streamable-http transport
+    # The MCP library reads PORT from environment automatically for streamable-http
     port = int(os.environ.get("PORT", 8080))
-    mcp.run(
-        transport="streamable-http",
-        host="0.0.0.0",
-        port=port
-    )
+    logger.info(f"Starting server on port {port}")
+    
+    # For streamable-http, the library typically handles host/port from env vars
+    mcp.run(transport="streamable-http")
