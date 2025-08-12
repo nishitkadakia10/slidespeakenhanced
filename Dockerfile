@@ -19,6 +19,8 @@ USER appuser
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PORT=8080
+# Ensure the server binds to all interfaces for container access
+ENV HOST=0.0.0.0
 
 # Expose the port
 EXPOSE 8080
