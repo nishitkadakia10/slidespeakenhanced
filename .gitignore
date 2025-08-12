@@ -1,2 +1,26 @@
 .idea
 .venv
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.env.local
+*.log
+
+# Python environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Railway
+railway.json.example
+
+# Testing
+*.test.py
+test_*.py
