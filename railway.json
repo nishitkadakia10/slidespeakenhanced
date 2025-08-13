@@ -5,7 +5,7 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "python slidespeak-server.py",
+    "startCommand": "python slidespeak.py",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3,
     "numReplicas": 1,
