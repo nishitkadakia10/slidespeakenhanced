@@ -5,13 +5,11 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "python slidespeak.py",
+    "startCommand": "python slidespeak-server.py",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3,
     "numReplicas": 1,
-    "region": "us-east",
-    "healthcheckPath": "/health/status",
-    "healthcheckTimeout": 30
+    "region": "us-east"
   },
   "environments": {
     "production": {
