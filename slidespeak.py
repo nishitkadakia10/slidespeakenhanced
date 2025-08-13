@@ -56,8 +56,7 @@ logger.info("=" * 60)
 
 # Initialize FastMCP server without authentication for now
 mcp = FastMCP(
-    name="SlideSpeak MCP Server",
-    description="Create professional presentations using AI through SlideSpeak API"
+    name="SlideSpeak MCP Server"
 )
 
 # Check for API key
