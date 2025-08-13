@@ -33,7 +33,7 @@ logger = logging.getLogger('slidespeak_server')
 
 # --- API Configuration ---
 API_BASE = "https://api.slidespeak.co/api/v1"
-USER_AGENT = "slidespeak-mcp/0.0.3"
+USER_AGENT = "slidespeak-mcp/1.0.0"
 
 # Default Timeouts
 DEFAULT_TIMEOUT = 30.0
@@ -131,11 +131,14 @@ async def _make_api_request(
             logger.error(f"❌ Unexpected error calling {method} {url}: {str(e)}")
             return None
 
-# --- Health Check Resources ---
+# --- Health Check ---
+# Note: FastMCP resources don't create HTTP endpoints, they're MCP protocol resources
+# For Railway health checks, we need to use a different approach
 
-@mcp.resource("health://status")
-def health_status() -> str:
-    """MCP health check endpoint for monitoring"""
+# Create a simple health check tool that Railway can call via the MCP endpoint
+@mcp.tool()
+async def health_check() -> str:
+    """Health check endpoint for monitoring"""
     status = {
         "status": "healthy",
         "service": "SlideSpeak MCP Server",
@@ -733,8 +736,8 @@ if __name__ == "__main__":
     
     logger.info("=" * 60)
     logger.info("📡 Server endpoints:")
-    logger.info(f"  Health: {base_url}/health/status")
     logger.info(f"  MCP: {base_url}/mcp")
+    logger.info("  Note: Health checks are handled via MCP protocol")
     logger.info("=" * 60)
     
     # Run FastMCP server with streamable-http transport for Railway deployment
