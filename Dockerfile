@@ -31,4 +31,4 @@ ENV PORT=8080
 EXPOSE 8080
 
 # Run the server
-CMD ["python", "slidespeak-server.py"]
+CMD ["python", "slidespeak.py"]
