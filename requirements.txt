@@ -1,10 +1,24 @@
-httpx>=0.28.1
-mcp[cli]>=1.5.0
-pydantic>=2.0.0
-
-# Web framework dependencies for HTTP/SSE transport
+# Web framework
 fastapi>=0.110.0
 uvicorn[standard]>=0.30.0
 sse-starlette>=1.6.5
-starlette>=0.37.0
-fastmcp>=2.11.0  # Minimum version with auth support
+
+# MCP requirements
+mcp[cli]>=1.6.0
+fastmcp>=2.11.0
+
+# HTTP client
+httpx>=0.25.0
+
+# Pydantic
+pydantic>=2.8.0
+pydantic-settings>=2.0.0
+
+# Date handling
+python-dateutil>=2.8.2
+
+# Async support
+asyncio>=3.4.3
+
+# JSON handling
+ujson>=5.8.0
