@@ -230,11 +230,53 @@ async def get_me() -> str:
     return json.dumps(result, indent=2) + "\n\nNote: Generating slides costs 1 credit per slide"
 
 @mcp.tool()
+async def get_themes() -> str:
+    """
+    Get all available presentation themes.
+    
+    This endpoint returns all available themes that can be used in the template parameter
+    when generating presentations. Use this to see what themes are available.
+    """
+    themes_endpoint = "/presentation/themes"
+
+    if not API_KEY:
+        return "API Key is missing. Cannot process any requests."
+
+    themes_data = await _make_api_request("GET", themes_endpoint)
+
+    if not themes_data:
+        return "Unable to fetch themes due to an API error. Check server logs."
+
+    if isinstance(themes_data, list):
+        formatted_themes = "Available themes:\n"
+        for theme in themes_data:
+            if isinstance(theme, dict):
+                name = theme.get("name", "unknown")
+                theme_id = theme.get("id", "")
+                description = theme.get("description", "")
+                formatted_themes += f"- {name}"
+                if theme_id:
+                    formatted_themes += f" (ID: {theme_id})"
+                if description:
+                    formatted_themes += f"\n  Description: {description}"
+                formatted_themes += "\n"
+            else:
+                formatted_themes += f"- {theme}\n"
+        return formatted_themes.strip()
+    else:
+        return f"Themes data: {themes_data}"
+
+@mcp.tool()
 async def generate_powerpoint(
     plain_text: str = Field(description="The text content to generate presentation from"),
     length: int = Field(description="Number of slides to generate (costs 1 credit per slide)"),
     template: str = Field(description="Template name to use (get available templates first)"),
     document_uuids: Optional[list[str]] = Field(default=None, description="Optional document UUIDs to include"),
+    language: Optional[str] = Field(default="ORIGINAL", description="Language code for the presentation (e.g., 'ENGLISH', 'SPANISH', 'FRENCH', 'GERMAN', 'ITALIAN', 'PORTUGUESE', 'ORIGINAL')"),
+    fetch_images: Optional[bool] = Field(default=True, description="Whether to include stock images in the presentation"),
+    tone: Optional[str] = Field(default="default", description="The tone to use for the text (e.g., 'default', 'professional', 'casual', 'formal', 'creative')"),
+    verbosity: Optional[str] = Field(default="standard", description="Content verbosity level: 'concise', 'standard', or 'detailed'"),
+    custom_user_instructions: Optional[str] = Field(default=None, description="Custom instructions to follow when generating the presentation")
 ) -> str:
     """
     Generate a PowerPoint presentation based on text, length, and template.
@@ -339,6 +381,8 @@ async def generate_slide_by_slide(
     slides: list[dict[str, Any]] = Field(description="List of slide definitions with title, layout, item_amount, and content"),
     language: Optional[str] = Field(default=None, description="Language code like 'ENGLISH' or 'ORIGINAL'"),
     fetch_images: Optional[bool] = Field(default=True, description="Whether to fetch images for slides"),
+    include_cover: Optional[bool] = Field(default=True, description="Whether to include a cover slide"),
+    include_table_of_contents: Optional[bool] = Field(default=False, description="Whether to include table of contents slides"),
 ) -> str:
     """
     Generate a PowerPoint presentation using Slide-by-Slide input for precise control.
